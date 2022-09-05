@@ -3,6 +3,7 @@ import SendPost from './SendPost';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { getNewestPosts } from '../features/posts/postsSlice';
+import Post from './Post';
 
 const HomeContent = () => {
   const dispatch = useDispatch();
@@ -10,7 +11,6 @@ const HomeContent = () => {
 
   useEffect(() => {
     dispatch(getNewestPosts());
-    console.log(posts);
   }, []);
 
   return (
@@ -19,6 +19,7 @@ const HomeContent = () => {
       <div style={{ margin: '1rem 0' }}>
         <hr />
       </div>
+      {posts && posts.map((post) => <Post post={post} />)}
     </>
   );
 };

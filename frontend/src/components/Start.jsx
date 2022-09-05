@@ -19,7 +19,7 @@ const Start = () => {
       <div className='start'>
         <div className='start-top'>
           <div className='start-header'>
-            <h1>Bądź na bierząco ze Sparrow</h1>
+            <h1>Bądź na bieżąco ze Sparrow</h1>
             <h2>Zaloguj się lub zarejestruj</h2>
           </div>
         </div>

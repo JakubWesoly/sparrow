@@ -4,6 +4,22 @@ import jwt from 'jsonwebtoken';
 
 import User from '../models/userModel.js';
 
+// @route GET /api/users/:id
+// @desc Get user's name and image by id
+// @access Public
+const getBasicUserInfo = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return res.status(404).json({ message: 'Nie znaleziono użytkownika' });
+  }
+
+  res.json({
+    name: user.username,
+    image: user.picture_url,
+  });
+});
+
 // @route  POST /api/users/login
 // @desc   Logging into account
 // @access Public
@@ -71,4 +87,4 @@ const genToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 };
 
-export { loginUser, registerUser };
+export { loginUser, registerUser, getBasicUserInfo };

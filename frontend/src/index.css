@@ -2,6 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap');
 
 :root {
+  color-scheme: dark;
+
   --primary: rgb(204, 51, 51);
   --primary-variant: #3700b3;
   --secondary: #03dac6;
@@ -370,6 +372,69 @@ h6 {
   overflow: hidden;
   height: 225px;
 }
+
+.post {
+  width: 100%;
+  min-height: 125px;
+  max-height: 300px;
+  padding-bottom: 50px;
+  margin: 1rem 0;
+  position: relative;
+  border-bottom: 1px solid #aaa;
+}
+
+.post-top {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.post-top > img {
+  height: 50px;
+  border-radius: 25px;
+  margin-right: 1rem;
+}
+
+.post-content {
+  text-align: justify;
+}
+
+.post-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 50px;
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  font-size: 1.5rem;
+}
+
+.post-bottom > button {
+  background-color: transparent;
+  color: white;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-right: 1rem;
+}
+
+.post-content,
+.post-bottom {
+  padding: 0 calc(50px + 1rem);
+}
+
+.button-like:hover {
+  color: red;
+}
+.button-share:hover {
+  color: lime;
+}
+
+/* .button-like:active {
+    background-color: red;
+  } */
 
 @media only screen and (max-width: 992px) {
   .start-logo {
