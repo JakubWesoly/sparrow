@@ -7,7 +7,14 @@ import User from '../models/userModel.js';
 // @desc   Fetches posts
 // @access Public
 const getPosts = asyncHandler(async (req, res) => {
-  const posts = await Post.find().sort({ _id: -1 });
+  const user = await User.findById(req.body.user);
+  // const posts = await Post.find().sort({ _id: -1 });
+  let posts = await Post.find({
+    author: { $not: { $eq: user._id } },
+    _id: { $not: { $in: user.liked } },
+  }).sort({
+    _id: -1,
+  });
 
   if (!posts) throw new Error('Nie odnaleziono postów');
 
@@ -32,14 +39,26 @@ const postPost = asyncHandler(async (req, res) => {
   res.status(200).json({ message: 'Poprawnie dodano post' });
 });
 
-// @route  PUT /api/post/:id
-// @desc   Updates a post
+// @route  GET /api/posts/liked
+// @desc   Fetches liked posts
 // @access Private
-// const putPost = asyncHandler(async (req, res) => {
-// });
+const getLikedPosts = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.body.user);
 
-// TODO: Updaing posts controllers
+  if (!user) throw new Error('Nie odnaleziono użytkownika');
 
+  const posts = await Post.find({ _id: { $in: user.liked } }).sort({
+    _id: -1,
+  });
+
+  if (!posts) throw new Error('Nie odnaleziono postów');
+
+  res.status(200).json(posts);
+});
+
+// @route  POST /api/posts/like/:id
+// @desc   Likes a post
+// @access Private
 const likePost = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { user, mode } = req.body;
@@ -54,14 +73,16 @@ const likePost = asyncHandler(async (req, res) => {
   const userRecord = await User.findById(user);
 
   if (mode === 1) {
-    if (userRecord.likedPosts)
+    if (userRecord.liked.length > 0)
       await userRecord.updateOne({
-        likedPosts: [...userRecord.likedPosts, id],
+        liked: [...userRecord.liked, id],
       });
-    else await userRecord.updateOne({ likedPosts: [id] });
+    else {
+      await userRecord.updateOne({ liked: [id] });
+    }
   } else if (mode === -1) {
     await userRecord.updateOne({
-      likedPosts: userRecord.likedPosts.filter((postId) => postId !== id),
+      liked: userRecord.liked.filter((postId) => postId != id),
     });
   }
   res.status(200).json({ message: 'Poprawnie dodano post' });
@@ -84,4 +105,4 @@ const deletePost = asyncHandler(async (req, res) => {
   }
 });
 
-export { getPosts, postPost, likePost, deletePost };
+export { getPosts, getLikedPosts, postPost, likePost, deletePost };

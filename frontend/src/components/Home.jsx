@@ -5,6 +5,7 @@ import HomeContent from './HomeContent';
 
 import HomeNavLeft from './HomeNavLeft';
 import HomeNavRight from './HomeNavRight';
+import Liked from './Liked';
 
 const Home = (props) => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const Home = (props) => {
       <main className='home-main'>
         <Routes>
           <Route path='/home' element={<HomeContent />} />
+          <Route path='/liked' element={<Liked />} />
         </Routes>
       </main>
       <HomeNavRight />

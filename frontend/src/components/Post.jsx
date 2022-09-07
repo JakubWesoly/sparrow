@@ -1,21 +1,14 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-import {
-  RiHeartAddLine,
-  RiHeartFill,
-  RiShareForwardLine,
-  RiShareForwardFill,
-} from 'react-icons/ri';
+import { RiHeartAddLine, RiHeartFill } from 'react-icons/ri';
 
 const Post = (props) => {
   const { post } = props;
   const [user, setUser] = useState(null);
   const [likes, setLikes] = useState(post.likes);
-  const [shares, setShares] = useState(post.reposts);
 
   const [isLiked, setIsLiked] = useState(false);
-  const [isReposted, setIsReposted] = useState(false);
 
   const getUser = async (userId) => {
     setUser((await axios.get(`/api/users/${userId}`)).data);
@@ -60,17 +53,6 @@ const Post = (props) => {
           style={isLiked ? { color: '#ff0000' } : {}}
         >
           {isLiked ? <RiHeartFill /> : <RiHeartAddLine />} {likes}
-        </button>
-        <button
-          className='button-share'
-          onClick={() => {
-            setIsReposted(!isReposted);
-            setShares(isReposted ? shares - 1 : shares + 1);
-          }}
-          style={isReposted ? { color: 'lime' } : {}}
-        >
-          {isReposted ? <RiShareForwardFill /> : <RiShareForwardLine />}{' '}
-          {shares}
         </button>
       </div>
     </div>

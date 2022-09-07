@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import SendPost from './SendPost';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getNewestPosts } from '../features/posts/postsSlice';
+import { getNewestPosts, resetPosts } from '../features/posts/postsSlice';
 import Post from './Post';
 
 const HomeContent = () => {
@@ -10,6 +10,7 @@ const HomeContent = () => {
   const { posts } = useSelector((state) => state.posts);
 
   useEffect(() => {
+    // dispatch(resetPosts());
     dispatch(getNewestPosts());
   }, []);
 

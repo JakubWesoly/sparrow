@@ -21,14 +21,28 @@ const createPost = async (postData) => {
 };
 
 const getNewestPosts = async () => {
-  const response = await axios.get(API_URL);
+  const response = await axios.get(API_URL, {
+    headers: {
+      Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
+    },
+  });
 
+  return response.data;
+};
+
+const getLikedPosts = async () => {
+  const response = await axios.get(API_URL + 'liked', {
+    headers: {
+      Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
+    },
+  });
   return response.data;
 };
 
 const postsService = {
   createPost,
   getNewestPosts,
+  getLikedPosts,
 };
 
 export default postsService;

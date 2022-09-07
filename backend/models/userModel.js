@@ -23,13 +23,6 @@ const userSchema = new mongoose.Schema(
       default:
         'https://res.cloudinary.com/dhk6z5vzz/image/upload/v1660340310/nrgi6lerl3bbjyzoguef.jpg',
     },
-    posts: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Post',
-        default: [],
-      },
-    ],
     followers: [
       {
         type: mongoose.Schema.Types.ObjectId,

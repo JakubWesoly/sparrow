@@ -29,7 +29,7 @@ const HomeNavLeft = () => {
           </Link>
         </li>
         <li className='home-nav-left-list-item'>
-          <Link to='/home'>
+          <Link to='/liked'>
             <RiHeartLine className='home-nav-left-list-item-icon' />
             Polubione
           </Link>
@@ -38,12 +38,6 @@ const HomeNavLeft = () => {
           <Link to='/home'>
             <RiUser3Line className='home-nav-left-list-item-icon' />
             Profil
-          </Link>
-        </li>
-        <li className='home-nav-left-list-item'>
-          <Link to='/home'>
-            <RiMessageLine className='home-nav-left-list-item-icon' />
-            Wiadomości
           </Link>
         </li>
         <li className='home-nav-left-list-item'>

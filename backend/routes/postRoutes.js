@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import {
   getPosts,
+  getLikedPosts,
   postPost,
   likePost,
   deletePost,
@@ -11,7 +12,8 @@ import authRoute from '../middleware/authMiddleware.js';
 
 const router = Router();
 
-router.get('/', getPosts);
+router.get('/', authRoute, getPosts);
+router.get('/liked', authRoute, getLikedPosts);
 router.post('/', authRoute, postPost);
 // router.put('/:id', authRoute, putPost);
 // TODO: Post updating routes
