@@ -6,6 +6,7 @@ import HomeContent from './HomeContent';
 import HomeNavLeft from './HomeNavLeft';
 import HomeNavRight from './HomeNavRight';
 import Liked from './Liked';
+import Profile from './Profile';
 
 const Home = (props) => {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ const Home = (props) => {
         <Routes>
           <Route path='/home' element={<HomeContent />} />
           <Route path='/liked' element={<Liked />} />
+          <Route path='/profile/:id' element={<Profile />} />
         </Routes>
       </main>
       <HomeNavRight />

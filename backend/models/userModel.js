@@ -32,9 +32,8 @@ const userSchema = new mongoose.Schema(
     ],
     followed: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        default: [],
+        type: Number,
+        default: 0,
       },
     ],
     liked: [

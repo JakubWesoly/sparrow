@@ -15,7 +15,11 @@ const Liked = () => {
     });
   }, []);
 
-  return <div>{posts && posts.map((post) => <Post post={post} />)}</div>;
+  return (
+    <div>
+      {posts && posts.map((post) => <Post post={post} isLiked={true} />)}
+    </div>
+  );
 };
 
 export default Liked;

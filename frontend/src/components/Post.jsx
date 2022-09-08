@@ -8,7 +8,7 @@ const Post = (props) => {
   const [user, setUser] = useState(null);
   const [likes, setLikes] = useState(post.likes);
 
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(props.isLiked || false);
 
   const getUser = async (userId) => {
     setUser((await axios.get(`/api/users/${userId}`)).data);

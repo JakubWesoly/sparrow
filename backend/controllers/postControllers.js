@@ -56,6 +56,18 @@ const getLikedPosts = asyncHandler(async (req, res) => {
   res.status(200).json(posts);
 });
 
+const getUsersPosts = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) throw new Error('Nie odnaleziono użytkownika');
+
+  const posts = await Post.find({ author: user._id }).sort({ _id: -1 });
+
+  if (!posts) throw new Error('Nie odnaleziono postów');
+
+  res.status(200).json(posts);
+});
+
 // @route  POST /api/posts/like/:id
 // @desc   Likes a post
 // @access Private
@@ -105,4 +117,11 @@ const deletePost = asyncHandler(async (req, res) => {
   }
 });
 
-export { getPosts, getLikedPosts, postPost, likePost, deletePost };
+export {
+  getPosts,
+  getLikedPosts,
+  getUsersPosts,
+  postPost,
+  likePost,
+  deletePost,
+};

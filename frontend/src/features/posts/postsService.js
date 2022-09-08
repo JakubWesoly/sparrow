@@ -39,10 +39,16 @@ const getLikedPosts = async () => {
   return response.data;
 };
 
+const getUsersPosts = async (id) => {
+  const response = await axios.get('/api/posts/user/' + id);
+  return response.data;
+};
+
 const postsService = {
   createPost,
   getNewestPosts,
   getLikedPosts,
+  getUsersPosts,
 };
 
 export default postsService;

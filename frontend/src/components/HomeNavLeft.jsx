@@ -3,10 +3,10 @@ import {
   RiUserFollowLine,
   RiHeartLine,
   RiUser3Line,
-  RiMessageLine,
   RiSettings2Line,
 } from 'react-icons/ri';
 import PostButton from './PostButton';
+import jwt from 'jsonwebtoken';
 import LogOutButton from './LogOutButton';
 // import sparrow from '../image/logo.png';
 import { Link } from 'react-router-dom';
@@ -35,7 +35,11 @@ const HomeNavLeft = () => {
           </Link>
         </li>
         <li className='home-nav-left-list-item'>
-          <Link to='/home'>
+          <Link
+            to={`/profile/${
+              jwt.decode(JSON.parse(localStorage.getItem('user')).token).id
+            }`}
+          >
             <RiUser3Line className='home-nav-left-list-item-icon' />
             Profil
           </Link>

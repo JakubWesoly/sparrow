@@ -10,7 +10,7 @@ const HomeContent = () => {
   const { posts } = useSelector((state) => state.posts);
 
   useEffect(() => {
-    // dispatch(resetPosts());
+    dispatch(resetPosts());
     dispatch(getNewestPosts());
   }, []);
 

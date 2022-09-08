@@ -3,6 +3,7 @@ import { Router } from 'express';
 import {
   getPosts,
   getLikedPosts,
+  getUsersPosts,
   postPost,
   likePost,
   deletePost,
@@ -14,6 +15,7 @@ const router = Router();
 
 router.get('/', authRoute, getPosts);
 router.get('/liked', authRoute, getLikedPosts);
+router.get('/user/:id', getUsersPosts);
 router.post('/', authRoute, postPost);
 // router.put('/:id', authRoute, putPost);
 // TODO: Post updating routes
