@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { RiHeartAddLine, RiHeartFill } from 'react-icons/ri';
 
@@ -37,8 +38,10 @@ const Post = (props) => {
   return (
     <div className='post'>
       <div className='post-top'>
-        <img src={user && user.image} alt='profile' />
-        <span>{user && user.name} | </span>
+        <Link to={`/profile/${user && user._id}`}>
+          <img src={user && user.image} alt='profile' />
+          <span>{user && user.name} | </span>
+        </Link>
         <span> {post.createdAt.substr(0, 10)}</span>
       </div>
       <div className='post-content'>{post.content}</div>

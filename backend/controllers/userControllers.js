@@ -15,6 +15,7 @@ const getBasicUserInfo = asyncHandler(async (req, res) => {
   }
 
   res.json({
+    _id: user._id,
     name: user.username,
     image: user.picture_url,
     followerCount: user.followers.length,

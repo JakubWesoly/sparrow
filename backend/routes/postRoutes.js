@@ -4,6 +4,7 @@ import {
   getPosts,
   getLikedPosts,
   getUsersPosts,
+  getFollowedPosts,
   postPost,
   likePost,
   deletePost,
@@ -16,6 +17,7 @@ const router = Router();
 router.get('/', authRoute, getPosts);
 router.get('/liked', authRoute, getLikedPosts);
 router.get('/user/:id', getUsersPosts);
+router.get('/followed', authRoute, getFollowedPosts);
 router.post('/', authRoute, postPost);
 // router.put('/:id', authRoute, putPost);
 // TODO: Post updating routes

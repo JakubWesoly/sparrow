@@ -21,9 +21,8 @@ const HomeNavLeft = () => {
             Strona Główna
           </Link>
         </li>
-        {/* TODO: ADD LINKS AND FUNCTIONALITY */}
         <li className='home-nav-left-list-item'>
-          <Link to='/home'>
+          <Link to='/followed'>
             <RiUserFollowLine className='home-nav-left-list-item-icon' />
             Obserwowane
           </Link>
@@ -45,7 +44,7 @@ const HomeNavLeft = () => {
           </Link>
         </li>
         <li className='home-nav-left-list-item'>
-          <Link to='/home'>
+          <Link to='/settings'>
             <RiSettings2Line className='home-nav-left-list-item-icon' />
             Ustawienia
           </Link>

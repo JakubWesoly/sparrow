@@ -43,6 +43,12 @@ const userSchema = new mongoose.Schema(
         default: [],
       },
     ],
+    settings: {
+      type: Object,
+      default: {
+        showLikedPosts: false,
+      },
+    },
   },
   { timestamps: true }
 );

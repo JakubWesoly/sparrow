@@ -88,6 +88,24 @@ export const getUsersPosts = createAsyncThunk(
   }
 );
 
+export const getFollowedPosts = createAsyncThunk(
+  'posts/getFollowed',
+  async (id = null, thunkAPI) => {
+    try {
+      const response = await postsService.getFollowedPosts();
+      return response;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const postsSlice = createSlice({
   name: 'posts',
   initialState,
@@ -155,6 +173,20 @@ export const postsSlice = createSlice({
         state.posts = action.payload;
       })
       .addCase(getUsersPosts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getFollowedPosts.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getFollowedPosts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = action.payload;
+        state.posts = action.payload;
+      })
+      .addCase(getFollowedPosts.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

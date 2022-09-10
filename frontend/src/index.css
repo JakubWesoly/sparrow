@@ -389,7 +389,14 @@ h6 {
   align-items: center;
 }
 
-.post-top > img {
+.post-top a {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.post-top img {
   height: 50px;
   border-radius: 25px;
   margin-right: 1rem;

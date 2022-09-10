@@ -68,6 +68,21 @@ const getUsersPosts = asyncHandler(async (req, res) => {
   res.status(200).json(posts);
 });
 
+// @route  GET /api/posts/followrd
+// @desc   Fetches followed user's posts
+// @access Private
+const getFollowedPosts = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.body.user);
+
+  const posts = await Post.find({ author: { $in: user.followers } }).sort({
+    _id: -1,
+  });
+
+  if (!posts) throw new Error('Nie odnaleziono postów');
+
+  res.status(200).json(posts);
+});
+
 // @route  POST /api/posts/like/:id
 // @desc   Likes a post
 // @access Private
@@ -121,6 +136,7 @@ export {
   getPosts,
   getLikedPosts,
   getUsersPosts,
+  getFollowedPosts,
   postPost,
   likePost,
   deletePost,

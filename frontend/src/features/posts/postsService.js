@@ -44,11 +44,21 @@ const getUsersPosts = async (id) => {
   return response.data;
 };
 
+const getFollowedPosts = async () => {
+  const response = await axios.get('/api/posts/followed', {
+    headers: {
+      Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('user')).token,
+    },
+  });
+  return response.data;
+};
+
 const postsService = {
   createPost,
   getNewestPosts,
   getLikedPosts,
   getUsersPosts,
+  getFollowedPosts,
 };
 
 export default postsService;
