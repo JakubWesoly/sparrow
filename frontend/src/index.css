@@ -465,6 +465,62 @@ h6 {
   font-weight: bold;
 }
 
+.settings {
+  position: relative;
+}
+
+.settings-heading {
+  margin: 2rem;
+}
+
+.settings-element {
+  margin: 2rem 0;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 2fr 1fr;
+}
+
+.settings-element-input {
+  grid-column-start: 2;
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+
+.settings-save {
+  position: sticky;
+  background-color: #111111f0;
+  width: 100%;
+  left: calc(25% + 1px);
+  bottom: 0;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.switch {
+  height: 25px;
+  width: 50px;
+  border-radius: 12.5px;
+  border: 1px solid white;
+  position: relative;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.switch-ball {
+  background-color: white;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  top: 25%;
+  transition: all 0.3s;
+}
+
 @media only screen and (max-width: 992px) {
   .start-logo {
     display: none;
