@@ -33,7 +33,7 @@ const Settings = () => {
         header='Zmień zdjęcie'
         desc='Zmień aktualne zdjęcie profilowe'
         type='picture'
-        setting='username'
+        setting='picture_url'
         update={update}
       />
       <SettingElement
@@ -54,7 +54,7 @@ const Settings = () => {
         header="Pokaż polike'owane posty"
         desc="Zmień widoczność like'owanych postów"
         type='switch'
-        setting='password'
+        setting='showLikedPosts'
         update={update}
       />
       <div className='settings-save'>

@@ -451,7 +451,7 @@ h6 {
 }
 
 .profile-info > img {
-  height: 90%;
+  height: 200px;
   object-fit: fill;
   border-radius: 50%;
   align-self: center;

@@ -23,6 +23,62 @@ const getBasicUserInfo = asyncHandler(async (req, res) => {
   });
 });
 
+// @route PUT /api/users/settings
+// @desc Update user's settings
+// @access Private
+const setSettings = asyncHandler(async (req, res) => {
+  let { name, value } = req.body;
+
+  if (!name || value == null) {
+    throw new Error('Nie podano wszystkich danych');
+  }
+
+  const user = await User.findById(req.body.user);
+
+  if (!user) {
+    return res.status(400).json({ message: 'Nie znaleziono użytkownika' });
+  }
+
+  if (name === 'password') {
+    const salt = await bcrypt.genSalt();
+    value = await bcrypt.hash(value, salt);
+  }
+
+  if (typeof value === 'string') {
+    try {
+      await user.updateOne({ [name]: value });
+      res.status(200).json({ message: 'Zaktualizowano ustawienia' });
+    } catch (err) {
+      throw new Error('Nie udało się zmienić ustawień');
+    }
+  } else if (typeof value === 'boolean') {
+    await user.updateOne({ settings: { [name]: value } });
+  } else {
+    throw new Error('Nieprawidłowy typ danych');
+  }
+});
+
+// @route GET /api/users/get-setting
+// @desc Get user's setting
+// @access Private
+const getSetting = asyncHandler(async (req, res) => {
+  const { name } = req.params;
+
+  console.log(name);
+
+  if (!name) {
+    throw new Error('Nie podano ustawienia');
+  }
+
+  const user = await User.findById(req.body.user);
+
+  if (!user) {
+    throw new Error('Nie znaleziono użytkownika');
+  }
+
+  res.status(200).json({ setting: user.settings[name] });
+});
+
 // @route  POST /api/users/login
 // @desc   Logging into account
 // @access Public
@@ -90,4 +146,4 @@ const genToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 };
 
-export { loginUser, registerUser, getBasicUserInfo };
+export { loginUser, registerUser, getBasicUserInfo, setSettings, getSetting };

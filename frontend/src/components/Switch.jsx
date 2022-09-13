@@ -19,7 +19,7 @@ const Switch = (props) => {
 
   return (
     <div
-      className='switch'
+      className='switch '
       style={value ? styleOn : styleOff}
       onClick={() => setValue(!value)}
     >
