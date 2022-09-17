@@ -1,8 +1,8 @@
 import { AiOutlineSearch, AiOutlineClose } from 'react-icons/ai';
 
-const SearchBar = () => {
+const SearchBar = (props) => {
   return (
-    <form className='search-bar'>
+    <form className={'search-bar ' + props.classes}>
       <div className='search-icon'>
         <AiOutlineSearch />
       </div>

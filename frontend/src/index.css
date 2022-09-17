@@ -183,12 +183,23 @@ h6 {
 }
 
 .home-nav-left {
+  background-color: var(--background);
+  z-index: 300000;
   font-size: 1.5rem;
   width: 25%;
   height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
+  transition: all 0.3s;
+}
+
+.home-nav-left-search {
+  display: none !important;
+}
+
+.home-nav-left.active {
+  left: -25%;
 }
 
 .home-nav-left-list {
@@ -198,6 +209,12 @@ h6 {
   height: 100%;
   margin-left: auto;
   margin-right: 1rem;
+}
+
+@media only screen and (max-width: 1200px) {
+  .home-nav-left-list {
+    margin: 0;
+  }
 }
 
 .home-nav-left-list-item {
@@ -260,6 +277,74 @@ h6 {
 
 .home-nav-left-logout > span {
   justify-self: left;
+}
+
+.home-nav-left-hamburger {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background-color: var(--background);
+  z-index: 1000000;
+  border: 1px solid white;
+  border-left: 0;
+  border-radius: 0 50% 50% 0;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.home-nav-left-hamburger.active {
+  left: 75%;
+}
+
+.home-nav-left-hamburger:active {
+  transform: none;
+}
+
+.home-nav-left-hamburger-line {
+  content: '';
+  width: 25px;
+  height: 2px;
+  display: block;
+  background-color: white;
+  position: absolute;
+  left: calc(50% - 1px);
+  transform: translateX(-50%);
+}
+
+.home-nav-left-hamburger-line.active {
+  background-color: transparent;
+}
+
+.home-nav-left-hamburger-line::before {
+  content: '';
+  width: 25px;
+  height: 2px;
+  display: block;
+  background-color: white;
+  position: absolute;
+  top: -7px;
+}
+
+.home-nav-left-hamburger-line.active::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.home-nav-left-hamburger-line::after {
+  content: '';
+  width: 25px;
+  height: 2px;
+  display: block;
+  background-color: white;
+  position: absolute;
+  top: 7px;
+}
+
+.home-nav-left-hamburger-line.active::after {
+  top: 0;
+  transform: rotate(-45deg);
 }
 
 .home-main {
@@ -534,8 +619,33 @@ h6 {
     border-radius: 0;
   }
   .start-button-container {
-    left: 50%;
+    left: 75%;
     transform: translate(-100%);
+  }
+  .home-nav-left {
+    width: 75% !important;
+    left: -75%;
+    opacity: 0;
+  }
+  .home-nav-left.active {
+    display: block;
+    left: 0;
+    opacity: 1;
+  }
+  .home-nav-left-hamburger {
+    display: block;
+  }
+  .home-nav-left-search {
+    margin-top: 2rem;
+    display: grid !important;
+  }
+  .home-main {
+    width: 100%;
+    left: 0;
+    border: 0;
+  }
+  .home-right-main {
+    display: none;
   }
 }
 
