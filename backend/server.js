@@ -4,6 +4,7 @@ import cors from 'cors';
 
 import userRoutes from './routes/userRoutes.js';
 import postRoutes from './routes/postRoutes.js';
+import searchRoutes from './routes/searchRoutes.js';
 
 import errorMiddleware from './middleware/errorMiddleware.js';
 
@@ -25,6 +26,7 @@ app.use(cors());
 
 app.use('/api/users', userRoutes);
 app.use('/api/posts', postRoutes);
+app.use('/api/search', searchRoutes);
 
 app.use(errorMiddleware);
 

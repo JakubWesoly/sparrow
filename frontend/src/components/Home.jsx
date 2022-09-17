@@ -9,6 +9,7 @@ import HomeNavRight from './HomeNavRight';
 import Liked from './Liked';
 import Profile from './Profile';
 import Settings from './Settings';
+import SearchContent from './SearchContent';
 
 const Home = (props) => {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ const Home = (props) => {
           <Route path='/liked' element={<Liked />} />
           <Route path='/profile/:id' element={<Profile />} />
           <Route path='/settings' element={<Settings />} />
+          <Route path='/search/:query' element={<SearchContent />} />
         </Routes>
       </main>
       <HomeNavRight />
