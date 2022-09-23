@@ -14,11 +14,13 @@ const getBasicUserInfo = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: 'Nie znaleziono użytkownika' });
   }
 
+  console.log(user);
+
   res.json({
     _id: user._id,
     name: user.username,
     image: user.picture_url,
-    followerCount: user.followers.length,
+    followers: user.followers,
     followed: user.followed,
   });
 });
@@ -77,6 +79,48 @@ const getSetting = asyncHandler(async (req, res) => {
   }
 
   res.status(200).json({ setting: user.settings[name] });
+});
+
+// @route PUT /api/users/follow/:id
+// @desc Follow user
+// @access Private
+const followUser = asyncHandler(async (req, res) => {
+  const base = await User.findById(req.body.user);
+  const target = await User.findById(req.params.id);
+
+  if (!base || !target) {
+    throw new Error('Nie znaleziono użytkownika');
+  }
+
+  try {
+    await base.updateOne({ $push: { followers: target._id } });
+  } catch (err) {
+    throw new Error('Nie udało się dodać do obserwowanych użytkownika');
+  }
+  try {
+    await target.updateOne({ followed: followed + 1 });
+  } catch (err) {
+    throw new Error('Nie udało się zwiększyć liczby obserwujących użytkownika');
+  }
+});
+
+// @route DELETE /api/users/follow/:id
+// @desc Unfollow user
+// @access Private
+const unfollowUser = asyncHandler(async (req, res) => {
+  const base = await User.findById(req.body.user);
+  const target = await User.findById(req.params.id);
+
+  if (!base || !target) {
+    throw new Error('Nie znaleziono użytkownika');
+  }
+
+  try {
+    await base.updateOne({ $pull: { followers: target._id } });
+    await target.updateOne({ followed: followed - 1 });
+  } catch (err) {
+    throw new Error('Nie udało się przestać obserwować użytkownika');
+  }
 });
 
 // @route  POST /api/users/login
@@ -146,4 +190,12 @@ const genToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 };
 
-export { loginUser, registerUser, getBasicUserInfo, setSettings, getSetting };
+export {
+  loginUser,
+  registerUser,
+  getBasicUserInfo,
+  setSettings,
+  followUser,
+  unfollowUser,
+  getSetting,
+};
