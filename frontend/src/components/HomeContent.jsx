@@ -4,6 +4,7 @@ import SendPost from './SendPost';
 import { useDispatch, useSelector } from 'react-redux';
 import { getNewestPosts, resetPosts } from '../features/posts/postsSlice';
 import Post from './Post';
+import Loading from "./Loading";
 
 const HomeContent = () => {
   const dispatch = useDispatch();
@@ -16,11 +17,7 @@ const HomeContent = () => {
 
   return (
     <>
-      <SendPost home />
-      <div style={{ margin: '1rem 0' }}>
-        <hr />
-      </div>
-      {posts && posts.map((post) => <Post post={post} />)}
+        {posts ? posts.map((post) => <Post post={post} />) : <Loading lowOpacity/>}
     </>
   );
 };

@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { resetPosts, getUsersPosts } from '../features/posts/postsSlice';
 import Post from './Post';
 import jwt from 'jsonwebtoken';
+import Loading from "./Loading";
 
 const Profile = () => {
   const { id } = useParams();
   const [user, setUser] = useState(null);
   const [isFollowed, setIsFollowed] = useState(false);
+
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.posts);
@@ -61,6 +64,14 @@ const Profile = () => {
     getIsFollowed().then(() => console.log('isFollowed', isFollowed));
   }, [user]);
 
+  useEffect(() => {
+    if(user && id !== user.id) {
+      console.log('changed');
+        navigate(`/profile/${id}`);
+        window.location.reload()
+    }
+  }, [id]);
+
   const getUser = async () => {
     setUser((await axios.get(`/api/users/${id}`)).data);
   };
@@ -68,7 +79,7 @@ const Profile = () => {
   return (
     <>
       <div className='profile-info'>
-        {user && (
+        {user ? (
           <>
             <img src={user.image} alt='profile' />
             <span className='profile-info-name'>{user.name}</span>
@@ -86,11 +97,11 @@ const Profile = () => {
               </button>
             )}
           </>
-        )}
+        ) : <Loading />}
       </div>
       <hr />
       <div className='profile-posts'>
-        {posts && posts.map((post) => <Post key={post.id} post={post} />)}
+        {posts ? posts.map((post) => <Post key={post.id} post={post} />) : <Loading />}
       </div>
     </>
   );

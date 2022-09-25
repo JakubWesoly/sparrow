@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { login, reset } from '../features/user/authSlice';
@@ -15,12 +15,7 @@ const Login = () => {
     (state) => state.user
   );
 
-  useEffect(() => {
-    if (isError) toast.error(message);
-    else if (isLoading) toast.isActive('Ładowanie . . .');
-    else if (isSuccess || user) navigate('/home');
-    dispatch(reset());
-  }, [dispatch, navigate, user, isLoading, isSuccess, isError, message]);
+  const toastId = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();

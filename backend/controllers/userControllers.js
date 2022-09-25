@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 import User from '../models/userModel.js';
+import Post from "../models/postModel.js";
 
 // @route GET /api/users/:id
 // @desc Get user's name and image by id
@@ -186,6 +187,27 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
+// @route  DELETE /api/users/delete
+// @desc   Delete user
+// @access Private
+const deleteUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.body.user);
+
+    if (!user) {
+        throw new Error('Nie znaleziono użytkownika');
+    }
+    try{
+      await Post.find({author: user._id}).deleteMany();
+
+      await user.remove();
+
+      res.status(200).json({ message: 'Usunięto użytkownika' });
+
+    } catch (err) {
+      throw new Error('Nie udało się usunąć użytkownika');
+    }
+});
+
 const genToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 };
@@ -198,4 +220,5 @@ export {
   followUser,
   unfollowUser,
   getSetting,
+  deleteUser
 };

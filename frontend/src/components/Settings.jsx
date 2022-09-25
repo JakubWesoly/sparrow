@@ -11,7 +11,7 @@ const Settings = () => {
   // using
   // setUpdate(true);
   // setUpdate(false);
-  // didn't work so I had to do this
+  // didn't work, so I had to do this
   useEffect(() => {
     if (update === true) {
       setUpdate(false);
@@ -20,7 +20,7 @@ const Settings = () => {
 
   return (
     <div className='settings'>
-      <h1 className='settings-heading'>Settings</h1>
+      <h1 className='settings-heading'>Ustawienia</h1>
       <hr />
       <SettingElement
         header='Zmień nazwę'
@@ -54,6 +54,13 @@ const Settings = () => {
         header="Pokaż polike'owane posty"
         desc="Zmień widoczność like'owanych postów"
         type='switch'
+        setting='showLikedPosts'
+        update={update}
+      />
+      <SettingElement
+        header="Usuń konto"
+        desc=""
+        type='button'
         setting='showLikedPosts'
         update={update}
       />

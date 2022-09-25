@@ -1,11 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Switch from './Switch';
 import axios from 'axios';
+import Modal from "./Modal";
+import {useNavigate} from "react-router-dom";
 const SettingElement = (props) => {
   const [input, setInput] = useState(props.type === 'switch' ? false : '');
   const file = useRef(null);
 
+  const navigate = useNavigate();
+
   const [first, setFirst] = useState(null);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     if (props.type !== 'switch') return;
@@ -101,6 +106,19 @@ const SettingElement = (props) => {
     }
   }, [update]);
 
+  const handleDelete = async() => {
+    await axios.delete(`/api/users/delete`, {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem('user')).token
+        }`,
+      },
+    });
+    localStorage.removeItem('user');
+    navigate('/');
+    window.location.reload();
+  }
+
   return (
     <>
       <div className='settings-element'>
@@ -122,6 +140,23 @@ const SettingElement = (props) => {
             <Switch value={input} setValue={setInput} />
           </div>
         )}
+          {props.type === 'button' && (
+              <>
+            <div className='settings-element-input'>
+                <button className='button-primary' onClick={() => setShow(true)}>
+                    Usuń
+                </button>
+
+            </div>
+            <Modal isShown={show} isShownHandler={setShow}>
+                <div className='delete-account-form'>
+                        <h2>Czy na pewno chcesz usunąć konto?</h2>
+                        <button className={'button-primary'} onClick={handleDelete }>Tak</button>
+                </div>
+            </Modal>
+              </>
+          )
+          }
       </div>
       <hr />
     </>

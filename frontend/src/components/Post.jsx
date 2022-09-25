@@ -4,10 +4,18 @@ import { Link } from 'react-router-dom';
 
 import { RiHeartAddLine, RiHeartFill } from 'react-icons/ri';
 
+import {useSpring, animated} from "react-spring";
+import Loading from "./Loading";
+
 const Post = (props) => {
   const { post } = props;
   const [user, setUser] = useState(null);
   const [likes, setLikes] = useState(post.likes);
+
+  const animation = useSpring({
+    from: { opacity: 0, right: '-5%' },
+    to: { opacity: user ? 1 : 0, right: user ? '0' : '-5%' },
+  });
 
   const [isLiked, setIsLiked] = useState(props.isLiked || false);
 
@@ -16,7 +24,7 @@ const Post = (props) => {
   };
 
   const handleLike = async () => {
-    axios.post(
+    await axios.post(
       `/api/posts/like/${post._id}`,
       {
         mode: isLiked ? -1 : 1,
@@ -36,7 +44,8 @@ const Post = (props) => {
   }, []);
 
   return (
-    <div className='post'>
+      <>
+      {user ? <animated.div style={{...animation}} className='post'>
       <div className='post-top'>
         <Link to={`/profile/${user && user._id}`}>
           <img src={user && user.image} alt='profile' />
@@ -58,7 +67,8 @@ const Post = (props) => {
           {isLiked ? <RiHeartFill /> : <RiHeartAddLine />} {likes}
         </button>
       </div>
-    </div>
+    </animated.div> : <Loading/>}
+          </>
   );
 };
 
