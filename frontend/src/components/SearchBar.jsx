@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { search } from '../features/search/searchSlice';
 
 import { useNavigate, useLocation } from 'react-router-dom';
+import {toast} from "react-toastify";
 
 const SearchBar = (props) => {
   const [query, setQuery] = useState('');
@@ -15,6 +16,12 @@ const SearchBar = (props) => {
   const { result, isLoading, isSuccess, isError } = useSelector(
     (state) => state.search
   );
+
+  useEffect(() => {
+    if(window.innerWidth > 992){}
+      if(isError)
+        toast.error('Brak wyników wyszukiwania');
+  }, [isLoading, isSuccess, isError]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -27,7 +34,6 @@ const SearchBar = (props) => {
       (result.users.length !== 0 || result.posts.length !== 0) &&
       !location.pathname.startsWith('/search/')
     ) {
-      console.log(location.pathname);
       navigate(`/search/${query}`);
     }
   }, [result]);

@@ -10,9 +10,7 @@ const Liked = () => {
 
   useEffect(() => {
     dispatch(resetPosts());
-    dispatch(getLikedPosts()).then(() => {
-      console.log(posts);
-    });
+    dispatch(getLikedPosts());
   }, []);
 
   return (

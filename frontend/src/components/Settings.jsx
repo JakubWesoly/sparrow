@@ -1,21 +1,30 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useRef, useState} from 'react';
 import SettingElement from './SettingElement';
+import {toast} from "react-toastify";
 
 const Settings = () => {
   const [update, setUpdate] = useState(false);
+  const [hasFailed, setHasFailed] = useState(false);
 
+  const toastRef = useRef(null);
+  const successRef = useRef(null);
   const handleClick = () => {
     setUpdate(true);
   };
 
+    useEffect(() => {
+        if(hasFailed)
+        {
+            toastRef.current = toast.error('Nie udało się zaktualizować ustawień');
+            setHasFailed(false);
+        }
+    }, [hasFailed]);
   // using
   // setUpdate(true);
   // setUpdate(false);
   // didn't work, so I had to do this
   useEffect(() => {
-    if (update === true) {
       setUpdate(false);
-    }
   }, [update]);
 
   return (
@@ -28,6 +37,7 @@ const Settings = () => {
         type='text'
         setting='username'
         update={update}
+        setFailed={setHasFailed}
       />
       <SettingElement
         header='Zmień zdjęcie'
@@ -35,6 +45,7 @@ const Settings = () => {
         type='picture'
         setting='picture_url'
         update={update}
+        setFailed={setHasFailed}
       />
       <SettingElement
         header='Zmień e-mail'
@@ -42,6 +53,7 @@ const Settings = () => {
         type='text'
         setting='email'
         update={update}
+        setFailed={setHasFailed}
       />
       <SettingElement
         header='Zmień hasło'
@@ -49,6 +61,7 @@ const Settings = () => {
         type='text'
         setting='password'
         update={update}
+        setFailed={setHasFailed}
       />
       <SettingElement
         header="Pokaż polike'owane posty"
@@ -56,6 +69,7 @@ const Settings = () => {
         type='switch'
         setting='showLikedPosts'
         update={update}
+        setFailed={setHasFailed}
       />
       <SettingElement
         header="Usuń konto"
@@ -63,6 +77,7 @@ const Settings = () => {
         type='button'
         setting='showLikedPosts'
         update={update}
+        setFailed={setHasFailed}
       />
       <div className='settings-save'>
         <button className='button-primary' onClick={handleClick}>

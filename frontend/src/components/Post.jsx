@@ -39,8 +39,24 @@ const Post = (props) => {
     );
   };
 
+  const handleInitLike = async () => {
+    if(!props.isLiked){
+        setIsLiked((await axios.get(
+            `/api/posts/is-liked/${post._id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${
+                        JSON.parse(localStorage.getItem('user')).token
+                    }`,
+                }
+            }
+        )).data);
+    }
+  }
+
   useEffect(() => {
     getUser(post.author);
+    handleInitLike();
   }, []);
 
   return (

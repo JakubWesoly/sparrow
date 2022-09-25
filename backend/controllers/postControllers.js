@@ -8,14 +8,25 @@ import User from '../models/userModel.js';
 // @access Public
 const getPosts = asyncHandler(async (req, res) => {
   const user = await User.findById(req.body.user);
-  // const posts = await Post.find().sort({ _id: -1 });
-  let posts = await Post.find({
-    author: { $not: { $eq: user._id } },
-    _id: { $not: { $in: user.liked } },
-  }).sort({
-    _id: -1,
-  });
 
+  if(!user) throw new Error('Nie znaleziono użytkownika');
+
+
+  let posts;
+  if(user.settings.showLikedPosts) {
+     posts = await Post.find({
+      author: {$not: {$eq: user._id}}
+    }).sort({ createdAt: -1 });
+    res.json(posts);
+  }
+    else {
+    posts = await Post.find({
+      author: {$not: {$eq: user._id}},
+      _id: {$not: {$in: user.liked}},
+    }).sort({
+      _id: -1,
+    });
+  }
   if (!posts) throw new Error('Nie odnaleziono postów');
 
   res.send(posts);
@@ -30,6 +41,9 @@ const postPost = asyncHandler(async (req, res) => {
   if (!content || !author) {
     throw new Error('Brak danych do dodania wpisu');
   }
+
+  if(content.length > 250)
+    throw new Error('Wpis może mieć maksymalnie 250 znaków');
 
   const post = Post.create({
     content,
@@ -61,24 +75,36 @@ const getUsersPosts = asyncHandler(async (req, res) => {
 
   if (!user) throw new Error('Nie odnaleziono użytkownika');
 
-  const posts = await Post.find({ author: user._id }).sort({ _id: -1 });
+
+  let posts = await Post.find({ author: user._id }).sort({ _id: -1 });
 
   if (!posts) throw new Error('Nie odnaleziono postów');
 
   res.status(200).json(posts);
 });
 
-// @route  GET /api/posts/followrd
+// @route  GET /api/posts/followed
 // @desc   Fetches followed user's posts
 // @access Private
 const getFollowedPosts = asyncHandler(async (req, res) => {
   const user = await User.findById(req.body.user);
 
-  const posts = await Post.find({ author: { $in: user.followers } }).sort({
+  const showLiked = user.settings.showLikedPosts;
+
+  if(!user) throw new Error('Nie odnaleziono użytkownika');
+
+  let posts = await Post.find({ author: { $in: user.followers } }).sort({
     _id: -1,
   });
 
   if (!posts) throw new Error('Nie odnaleziono postów');
+
+  posts = posts.map(post => {
+    if(showLiked) {
+      post = {...post, liked: user.liked.includes(post._id)};
+    }
+    return post;
+  });
 
   res.status(200).json(posts);
 });
@@ -88,7 +114,7 @@ const getFollowedPosts = asyncHandler(async (req, res) => {
 // @access Private
 const likePost = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const { user, mode } = req.body;
+  let { user, mode } = req.body;
   if (mode == undefined) mode = 1;
 
   const post = await Post.findById(id);
@@ -132,6 +158,22 @@ const deletePost = asyncHandler(async (req, res) => {
   }
 });
 
+//@desc Checks if a post is liked by a user
+//@route GET /api/posts/is-liked/:id
+//@access Private
+const getIsLiked = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { user } = req.body;
+
+    const userRecord = await User.findById(user);
+
+    if (!userRecord) throw new Error('Nie znaleziono użytkownika');
+
+    const isLiked = userRecord.liked.includes(id);
+
+    res.status(200).send(isLiked);
+});
+
 export {
   getPosts,
   getLikedPosts,
@@ -140,4 +182,5 @@ export {
   postPost,
   likePost,
   deletePost,
+    getIsLiked
 };

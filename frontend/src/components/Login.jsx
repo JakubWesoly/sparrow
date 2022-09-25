@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import { login, reset } from '../features/user/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -14,8 +13,6 @@ const Login = () => {
   const { user, isLoading, isSuccess, isError, message } = useSelector(
     (state) => state.user
   );
-
-  const toastId = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();

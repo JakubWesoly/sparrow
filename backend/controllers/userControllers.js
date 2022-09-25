@@ -15,7 +15,6 @@ const getBasicUserInfo = asyncHandler(async (req, res) => {
     return res.status(404).json({ message: 'Nie znaleziono użytkownika' });
   }
 
-  console.log(user);
 
   res.json({
     _id: user._id,
@@ -46,7 +45,12 @@ const setSettings = asyncHandler(async (req, res) => {
     const salt = await bcrypt.genSalt();
     value = await bcrypt.hash(value, salt);
   }
-
+  if(name === 'username'){
+    if(value.length > 20)
+      throw new Error('Nazwa użytkownika może mieć maksymalnie 20 znaków');
+    if(value.length < 3)
+        throw new Error('Nazwa użytkownika musi mieć przynajmniej 3 znaki');
+  }
   if (typeof value === 'string') {
     try {
       await user.updateOne({ [name]: value });
@@ -66,8 +70,6 @@ const setSettings = asyncHandler(async (req, res) => {
 // @access Private
 const getSetting = asyncHandler(async (req, res) => {
   const { name } = req.params;
-
-  console.log(name);
 
   if (!name) {
     throw new Error('Nie podano ustawienia');
@@ -157,6 +159,13 @@ const registerUser = asyncHandler(async (req, res) => {
   if (!username || !email || !password) {
     res.status(400);
     throw new Error('Brakujące dane rejestracji');
+  }
+
+  if(username.length < 3) {
+    throw new Error('Nazwa użytkownika musi mieć co najmniej 3 znaki');
+  }
+  if(username.length > 20) {
+    throw new Error('Nazwa użytkownika może mieć maksymalnie 20 znaków');
   }
 
   const salt = await bcrypt.genSalt();

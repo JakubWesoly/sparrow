@@ -54,19 +54,17 @@ const Profile = () => {
         jwt.decode(JSON.parse(localStorage.getItem('user')).token).id
       }`
     );
-    console.log(response.data);
     if (response.data.followers)
       setIsFollowed(response.data.followers.includes(id));
     else setIsFollowed(false);
   };
 
   useEffect(() => {
-    getIsFollowed().then(() => console.log('isFollowed', isFollowed));
+    getIsFollowed();
   }, [user]);
 
   useEffect(() => {
     if(user && id !== user.id) {
-      console.log('changed');
         navigate(`/profile/${id}`);
         window.location.reload()
     }

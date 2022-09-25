@@ -15,8 +15,8 @@ const SendPost = (props) => {
   const [content, setContent] = useState('');
 
   useEffect(() => {
-    if (isLoading) toastLoading.current = toast.loading('Ładowanie');
-    if (!isLoading) toast.dismiss(toastLoading.current);
+    // if (isLoading) toastLoading.current = toast.loading('Ładowanie');
+    // if (!isLoading) toast.dismiss(toastLoading.current);
     if (isError) toast.error(message);
     else if (isSuccess) {
       toast.success(message);
@@ -36,7 +36,7 @@ const SendPost = (props) => {
         placeholder='Co słychać?'
         className='send-post-input'
         maxLength='250'
-        style={{ height: props.home ? 'auto' : '225px' }}
+        style={{ height: '225px' }}
         value={content}
         onChange={(e) => setContent(e.target.value)}
       />

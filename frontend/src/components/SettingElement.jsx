@@ -51,7 +51,6 @@ const SettingElement = (props) => {
       (props.type === 'text' && input === '') ||
       (file.current && file.current.files[0] == null)
     ) {
-      console.log('nie zmieniono');
       return;
     }
     if (props.type === 'text') {
@@ -65,7 +64,7 @@ const SettingElement = (props) => {
             }`,
           },
         }
-      );
+      ).catch(err => {props.setFailed(true);});
     } else if (props.type === 'switch') {
       axios.put(
         '/api/users/settings',
@@ -76,8 +75,8 @@ const SettingElement = (props) => {
               JSON.parse(localStorage.getItem('user')).token
             }`,
           },
-        }
-      );
+        })
+        .catch(err => {props.setFailed(true);})
     } else if (props.type === 'picture') {
       const CLOUDINARY_URL =
         'https://api.cloudinary.com/v1_1/dhk6z5vzz/image/upload';
@@ -102,7 +101,7 @@ const SettingElement = (props) => {
             );
           }
         })
-        .catch((err) => console.error(err));
+        .catch((err) => {props.setFailed(true)});
     }
   }, [update]);
 
