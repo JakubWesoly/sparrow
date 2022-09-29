@@ -1,7 +1,7 @@
-import asyncHandler from 'express-async-handler';
+const asyncHandler = require('express-async-handler');
 
-import User from '../models/userModel.js';
-import Post from '../models/postModel.js';
+const User = require('../models/userModel.js');
+const Post = require('../models/postModel.js');
 
 const search = asyncHandler(async (req, res) => {
   const { query } = req.params;
@@ -23,4 +23,5 @@ const search = asyncHandler(async (req, res) => {
   res.json({ users, posts });
 });
 
-export { search };
+module.exports = { search };
+

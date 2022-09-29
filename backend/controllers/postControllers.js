@@ -1,7 +1,7 @@
-import asyncHandler from 'express-async-handler';
+const asyncHandler = require('express-async-handler');
 
-import Post from '../models/postModel.js';
-import User from '../models/userModel.js';
+const Post = require('../models/postModel.js');
+const User = require('../models/userModel.js');
 
 // @route  GET /api/posts
 // @desc   Fetches posts
@@ -174,7 +174,7 @@ const getIsLiked = asyncHandler(async (req, res) => {
     res.status(200).send(isLiked);
 });
 
-export {
+module.exports = {
   getPosts,
   getLikedPosts,
   getUsersPosts,

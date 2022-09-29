@@ -3,4 +3,4 @@ const errorMiddleware = (err, req, res, next) => {
   res.json({ message: err.message });
 };
 
-export default errorMiddleware;
+module.exports = errorMiddleware;

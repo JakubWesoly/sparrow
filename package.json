@@ -1,10 +1,8 @@
 {
-  "homepage": "http://jakubwesoly.github.io/sparrow",
   "name": "sparrow",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "type": "module",
   "proxy": "http://localhost:5000",
   "scripts": {
     "start": "node ./backend/server.js",

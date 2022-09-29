@@ -1,5 +1,5 @@
-import { Router } from 'express';
-import {
+const Router = require('express').Router;
+const {
   loginUser,
   registerUser,
   getBasicUserInfo,
@@ -7,8 +7,8 @@ import {
   getSetting,
   followUser,
   unfollowUser, deleteUser,
-} from '../controllers/userControllers.js';
-import authRoute from '../middleware/authMiddleware.js';
+} = require('../controllers/userControllers.js');
+const authRoute = require('../middleware/authMiddleware.js');
 
 const router = Router();
 
@@ -21,4 +21,4 @@ router.post('/login', loginUser);
 router.post('/register', registerUser);
 router.delete('/delete', authRoute, deleteUser);
 
-export default router;
+module.exports = router;

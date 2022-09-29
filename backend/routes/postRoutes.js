@@ -1,6 +1,6 @@
-import { Router } from 'express';
+const Router = require('express').Router;
 
-import {
+const {
   getPosts,
   getLikedPosts,
   getUsersPosts,
@@ -9,9 +9,9 @@ import {
   likePost,
   deletePost,
   getIsLiked
-} from '../controllers/postControllers.js';
+} = require('../controllers/postControllers.js');
 
-import authRoute from '../middleware/authMiddleware.js';
+const authRoute = require('../middleware/authMiddleware.js');
 
 const router = Router();
 
@@ -24,4 +24,4 @@ router.post('/like/:id', authRoute, likePost);
 router.delete('/:id', authRoute, deletePost);
 router.get('/is-liked/:id', authRoute, getIsLiked);
 
-export default router;
+module.exports = router;

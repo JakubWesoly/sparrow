@@ -1,9 +1,9 @@
-import asyncHandler from 'express-async-handler';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+const asyncHandler = require('express-async-handler');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-import User from '../models/userModel.js';
-import Post from "../models/postModel.js";
+const User = require('../models/userModel.js');
+const Post = require("../models/postModel.js");
 
 // @route GET /api/users/:id
 // @desc Get user's name and image by id
@@ -221,7 +221,7 @@ const genToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 };
 
-export {
+module.exports = {
   loginUser,
   registerUser,
   getBasicUserInfo,

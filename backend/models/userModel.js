@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema(
   {
@@ -69,4 +69,4 @@ const handleE11000 = (error, res, next) => {
 userSchema.post('save', handleE11000);
 userSchema.post('init', handleE11000);
 
-export default mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', userSchema);

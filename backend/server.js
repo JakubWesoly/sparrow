@@ -1,17 +1,17 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import path from 'path';
+const express = require('express');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const path = require('path');
 
-import userRoutes from './routes/userRoutes.js';
-import postRoutes from './routes/postRoutes.js';
-import searchRoutes from './routes/searchRoutes.js';
+const userRoutes = require('./routes/userRoutes.js');
+const postRoutes = require('./routes/postRoutes.js');
+const searchRoutes = require('./routes/searchRoutes.js');
 
-import errorMiddleware from './middleware/errorMiddleware.js';
+const errorMiddleware = require('./middleware/errorMiddleware.js');
 
-import connectDB from './db.js';
+const connectDB = require('./db.js');
 
-import './db.js';
+require('./db.js');
 
 dotenv.config();
 
@@ -30,16 +30,12 @@ app.use('/api/posts', postRoutes);
 app.use('/api/search', searchRoutes);
 
 
-const pathname = path.dirname(new URL(import.meta.url).pathname);
+// const pathname = path.dirname(new URL(import.meta.url).pathname);
 
-app.use(express.static(path.join(pathname, '../frontend/build')));
-app.get('*', (req, res) => res.sendFile(path.join(pathname, '../frontend/build/index.html')));
+app.use(express.static(path.join(__dirname, '../frontend/build')));
+app.get('*', (req, res) => res.sendFile(path.join(__dirname, '../frontend/build/index.html')));
 
 app.use(errorMiddleware);
-
-// app.get('*', (req, res) => {
-//   return res.sendFile(path.resolve(__dirname, '../frontend/build/index.html'));
-// })
 
 app.listen(PORT, () => {
   console.log(`[SERVER] started listening @ ${PORT}`);
