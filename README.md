@@ -1,6 +1,6 @@
 # SPARROW
 
-## LINK: 
+## LINK: https://sparrow-jw.herokuapp.com/
 
 ### Czym jest:
 Sparrow (klon Twittera) to mój pierwszy większy projekt, przez który chciałem nauczyć się MERN stacka.
