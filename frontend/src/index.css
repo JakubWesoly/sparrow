@@ -629,12 +629,12 @@ h6 {
 }
 
 .delete-account-form {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-items: center;
-    gap: 1rem;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  gap: 1rem;
 }
 
 .loading {
@@ -673,8 +673,6 @@ h6 {
     transform: rotate(360deg);
   }
 }
-
-
 
 @media only screen and (max-width: 992px) {
   .start-logo {
