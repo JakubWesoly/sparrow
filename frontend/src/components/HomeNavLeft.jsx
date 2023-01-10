@@ -6,18 +6,19 @@ import {
   RiSettings2Line,
 } from 'react-icons/ri';
 import PostButton from './PostButton';
-import jwt from 'jsonwebtoken';
 import LogOutButton from './LogOutButton';
-// import sparrow from '../image/logo.png';
 import { Link } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import SearchBar from './SearchBar';
+
+import parseJWT from '../functions/parseJWT';
 
 const HomeNavLeft = () => {
   const [animate, setAnimate] = useState(false);
   const burgerLine = useRef(null);
   const burger = useRef(null);
   const nav = useRef(null);
+  const currentUserID = JSON.parse(localStorage.getItem('user'));
 
   const handleBurger = () => {
     setAnimate(!animate);
@@ -49,11 +50,7 @@ const HomeNavLeft = () => {
             </Link>
           </li>
           <li className='home-nav-left-list-item'>
-            <Link
-              to={`/profile/${
-                jwt.decode(JSON.parse(localStorage.getItem('user')).token).id
-              }`}
-            >
+            <Link to={`/profile/${parseJWT(localStorage.getItem('user')).id}`}>
               <RiUser3Line className='home-nav-left-list-item-icon' />
               Profil
             </Link>

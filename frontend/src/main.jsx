@@ -11,7 +11,7 @@ import {
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 import './index.css';
-import {ToastContainer} from "react-toastify";
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const container = document.getElementById('root');
@@ -22,10 +22,10 @@ const App = () => {
   return (
     <>
       <Routes>
-          <Route path='/' element={<Start />} />
-        </Routes>
-        {location.pathname !== '/' && <Home />}
-        <ToastContainer theme='dark'/>
+        <Route path='/' element={<Start />} />
+      </Routes>
+      {location.pathname !== '/' && <Home />}
+      <ToastContainer theme='dark' />
     </>
   );
 };

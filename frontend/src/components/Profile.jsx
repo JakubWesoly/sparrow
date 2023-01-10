@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { resetPosts, getUsersPosts } from '../features/posts/postsSlice';
 import Post from './Post';
-import jwt from 'jsonwebtoken';
-import Loading from "./Loading";
+import Loading from './Loading';
+
+import parseJWT from '../functions/parseJWT';
 
 const Profile = () => {
   const { id } = useParams();
@@ -50,13 +51,12 @@ const Profile = () => {
 
   const getIsFollowed = async () => {
     const response = await axios.get(
-      `/api/users/${
-        jwt.decode(JSON.parse(localStorage.getItem('user')).token).id
-      }`
+      `/api/users/${parseJWT(localStorage.getItem('user')).id}`
     );
     if (response.data.followers)
       setIsFollowed(response.data.followers.includes(id));
     else setIsFollowed(false);
+    setIsFollowed(true);
   };
 
   useEffect(() => {
@@ -64,9 +64,9 @@ const Profile = () => {
   }, [user]);
 
   useEffect(() => {
-    if(user && id !== user.id) {
-        navigate(`/profile/${id}`);
-        window.location.reload()
+    if (user && id !== user.id) {
+      navigate(`/profile/${id}`);
+      window.location.reload();
     }
   }, [id]);
 
@@ -85,8 +85,7 @@ const Profile = () => {
               Obserwujący: {parseInt(user.followed + (isFollowed ? 1 : 0))} /
               Obserwowani: {(user.followers && user.followers.length) || 0}
             </span>
-            {user._id !==
-              jwt.decode(JSON.parse(localStorage.getItem('user')).token).id && (
+            {user._id !== parseJWT(localStorage.getItem('user')).id && (
               <button
                 className={isFollowed ? 'button-black' : 'button-primary'}
                 onClick={() => handleFollow()}
@@ -95,11 +94,17 @@ const Profile = () => {
               </button>
             )}
           </>
-        ) : <Loading />}
+        ) : (
+          <Loading />
+        )}
       </div>
       <hr />
       <div className='profile-posts'>
-        {posts ? posts.map((post) => <Post key={post.id} post={post} />) : <Loading />}
+        {posts ? (
+          posts.map((post) => <Post key={post.id} post={post} />)
+        ) : (
+          <Loading />
+        )}
       </div>
     </>
   );
